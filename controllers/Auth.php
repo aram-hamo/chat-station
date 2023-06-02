@@ -16,7 +16,7 @@ class Auth{
       $user->tokan     = $tokan;
       $user->create();
       setcookie("tokan",$tokan,time()+60*60*24*30,'/',CONFIG["GENERAL"]["HOST"]);
-
+      header("Location: /");
     }
     return View::render("auth",array("title"=>"auth"));
   }
