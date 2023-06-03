@@ -2,9 +2,8 @@
 namespace AramHamo\Mvc\Models;
 use AramHamo\MvcCore\Model;
 
-define('tableName','users');
-
 class User extends Model{
+  public String $_tableName = "users";
   public String $firstName;
   public String $lastName;
   public String $username;

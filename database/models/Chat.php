@@ -2,11 +2,10 @@
 namespace AramHamo\Mvc\Models;
 use AramHamo\MvcCore\Model;
 
-define('tableName','chat');
-
-class User extends Model{
-  public int $from_user;
-  public int $to_user;
+class Chat extends Model{
+  public String $_tableName = "chat";
+  public String $from_user;
+  public String $to_user;
   public int $time;
   public String $message;
 }
