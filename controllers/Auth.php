@@ -17,6 +17,12 @@ class Auth{
       $user->create();
       setcookie("tokan",$tokan,time()+60*60*24*30,'/',CONFIG["GENERAL"]["HOST"]);
       header("Location: /");
+    }else if(isset($_POST["login"])){
+      $query = $user->showWhere("username",$_POST["username"]);
+      if(password_verify($_POST['password'],$query[0]['password'])){
+        setcookie("tokan",$query[0]["tokan"],time()+60*60*24*30,'/',CONFIG["GENERAL"]["HOST"]);
+        header("Location: /");
+      }
     }
     return View::render("auth",array("title"=>"auth"));
   }
