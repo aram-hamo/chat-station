@@ -104,8 +104,8 @@ fetch(window.location.protocol+"//"+window.location.host+"/api", {
     return data.json();
   }).then(data =>{
     window.chatlog[withUser] = JSON.stringify(data);
-    chatBox = document.getElementById("chatBox-"+contact);
-    JSON.parse(window.chatlog[contact]).forEach(message => {
+    chatBox = document.getElementById("chatBox-"+withUser);
+    JSON.parse(window.chatlog[withUser]).forEach(message => {
       chatBox.innerHTML += "<p>"+message["message"]+"</p>";
       chatBox.innerHTML += "<p>from: "+message["from_user"]+"</p>";
     })
