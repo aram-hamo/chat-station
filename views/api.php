@@ -34,7 +34,7 @@ switch($_POST['action']){
     $stmt = "SELECT * from chat where (from_user=? and to_user=?) or (from_user=? and to_user=?) order by id desc limit ?";
     $chatLog = $db->conn->prepare($stmt);
     $chatLog->execute([$userData[0]["username"],$withUser,$withUser,$userData[0]["username"],$limit]);
-    print_r(json_encode($chatLog->fetchAll()));
+    print_r(json_encode(array_reverse($chatLog->fetchAll())));
   break;
 }
 }
