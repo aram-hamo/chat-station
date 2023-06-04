@@ -64,7 +64,7 @@ fetch(window.location.protocol+"//"+window.location.host+"/api", {
   'tokan':getCookie("tokan")
   },
 
-  body: 
+  body:
     "action=usernameExists&username="+username
   }).then(data =>  data.json() ).then(d =>{
     return console.log(d["return"])
@@ -83,25 +83,51 @@ fetch(window.location.protocol+"//"+window.location.host+"/api", {
   'tokan':getCookie("tokan")
   },
 
-  body: 
+  body:
     "action=newMessage&toUser="+to+"&message="+message
 })
 }
 // }}}
+// {{{ getChatLog
+window.chatlog = {};
+function getChatLog(withUser,limit=10){
+fetch(window.location.protocol+"//"+window.location.host+"/api", {
+  method: "post",
+  headers: {
+  'Content-Type': 'application/x-www-form-urlencoded',
+  'tokan':getCookie("tokan")
+  },
 
+  body:
+  "action=getChatLog&limit="+limit+"&withUser="+withUser
+}).then(data => {
+    return data.json();
+  }).then(data =>{
+    window.chatlog[withUser] = JSON.stringify(data);
+    chatBox = document.getElementById("chatBox-"+contact);
+    JSON.parse(window.chatlog[contact]).forEach(message => {
+      chatBox.innerHTML += "<p>"+message["message"]+"</p>";
+      chatBox.innerHTML += "<p>from: "+message["from_user"]+"</p>";
+    })
+
+  })
+
+}
+//}}}
 contactsList = document.getElementById("contactsList").innerText;
 pills = document.getElementById("v-pills-0");
 tabs = document.getElementById("tabs");
 
 JSON.parse(contactsList).forEach(contact => {
 pills.innerHTML +=`
-    <div class=newMessageBox>
+    <div class="newMessageBox" >
+    <div id="chatBox-`+contact+`" ></div>
       <input class="form-control" id="messageInput" placeholder="Message">
       <button class="btn btn-primary" onclick="sendMessage('`+contact+`');">Send</button>
     </div>`;
 tabs.innerHTML +=`
   <button class="nav-link active" id="v-pills-0-tab" data-bs-toggle="pill" data-bs-target="#v-pills-0" type="button" role="tab" aria-controls="v-pills-0" >`+contact+`</button>`;
-
+getChatLog(contact);
 });
 
 </script>
