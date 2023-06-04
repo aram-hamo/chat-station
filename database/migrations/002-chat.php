@@ -9,8 +9,8 @@ $table = new class {
     $m->id();
     $m->int("time");
     $m->text("message");
-    $m->text("from_user")->foreignKey("from_user","users","username");
-    $m->text("to_user")->foreignKey("to_user","users","username");
+    $m->text("from_user");
+    $m->text("to_user");
 
     $s->create($GLOBALS['tableName'],$m->table,$m->options);
   }
