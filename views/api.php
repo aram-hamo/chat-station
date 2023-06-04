@@ -11,14 +11,22 @@ if(isset(getallheaders()["tokan"])){
   if(!isset($userData[0])) exit;
   if($userData[0]["tokan"] !== getallheaders()["tokan"]) exit;
 
-  if($_POST["action"] ?? '' == "newMessage"){
-    $chat->message = $_POST["message"]; 
-    $chat->to_user = $_POST["toUser"]; 
+switch($_POST['action']){
+  case "newMessage":
+    $chat->message = $_POST["message"] ?? '';
+    $chat->to_user = $_POST["toUser"] ?? '';
     $chat->from_user = $userData[0]["username"]; 
     $chat->time = time();
-    ;
+    print_r(json_encode(array("return"=>$chat->create())));
+  break;
+  case "usernameExists":
+  if($_POST["action"] ?? '' == "usernameExists"){
+    if(isset($user->showWhere("username",$_POST["username"])[0])){
+      print_r(json_encode(array("return"=>true)));
+    }else{
+      print_r(json_encode(array("return"=>false)));
+    }
   }
-  print_r(json_encode(array("return"=>$chat->create())));
-}else{
-  exit;
+  break;
+}
 }
